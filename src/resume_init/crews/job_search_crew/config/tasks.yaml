@@ -1,0 +1,137 @@
+job_search_task:
+  description: >
+    Search and extract high-quality job opportunities from LinkedIn,
+    Indeed, Naukri, Lever, Greenhouse, and company career portals
+    based on the candidate's profile, skills, preferred location,
+    experience level, and job preferences.
+
+    The task includes:
+    - Searching multiple job platforms
+    - Scraping job listings
+    - Filtering irrelevant or duplicate postings
+    - Ranking jobs based on profile relevance
+    - Extracting structured metadata
+    - Returning ATS-ready clean job data
+
+    Focus on roles related to:
+    - Java Architect
+    - Technical Lead
+    - Principal Engineer
+    - Solution Architect
+    - Backend Architect
+    - Engineering Manager
+    - API Architect
+    - Cloud Architect
+    - AI Architect
+    - Full Stack Technical Lead
+
+    Prioritize jobs matching these skills:
+    - Java
+    - Spring Boot
+    - Microservices
+    - Node.js
+    - REST APIs
+    - API Security
+    - AWS
+    - Azure
+    - Kubernetes
+    - Docker
+    - RDBMS
+    - NoSQL
+    - Distributed Systems
+    - AI Integration
+    - Enterprise Architecture
+
+  expected_output: >
+    A structured JSON array containing only highly relevant job listings.
+
+    Each job object must contain:
+    - job_title
+    - company_name
+    - source_platform
+    - location
+    - remote_type
+    - employment_type
+    - experience_required
+    - salary_range
+    - skills_required
+    - job_description_summary
+    - match_score
+    - posted_date
+    - application_url
+    - company_career_page
+    - recruiter_name
+    - recruiter_profile
+    - visa_sponsorship
+    - job_id
+    - ATS_platform
+
+    Results should:
+    - Exclude duplicate jobs
+    - Exclude expired listings
+    - Exclude spam/sponsored postings
+    - Include only jobs posted within the last 30 days
+    - Prioritize direct company application URLs
+    - Be sorted by highest match_score first
+
+  agent: senior_job_researcher
+
+  async_execution: false
+
+  config:
+    platforms:
+      - linkedin
+      - indeed
+      - naukri
+      - lever
+      - greenhouse
+      - company_careers
+
+    search_filters:
+      experience_level:
+        min_years: 10
+        max_years: 20
+
+      employment_types:
+        - full-time
+        - contract
+
+      remote_preferences:
+        - remote
+        - hybrid
+        - onsite
+
+      preferred_locations:
+        - Chennai
+        - Bangalore
+        - Hyderabad
+        - Pune
+        - Mumbai
+        - Remote India
+
+      posted_within_days: 30
+
+      minimum_match_score: 75
+
+    ranking_weights:
+      skill_match: 40
+      title_match: 25
+      experience_match: 15
+      location_match: 10
+      salary_match: 10
+
+    deduplication:
+      enabled: true
+      strategy:
+        - company_name
+        - job_title
+        - location
+
+    validation_rules:
+      - verify_application_url
+      - remove_sponsored_jobs
+      - remove_expired_jobs
+      - validate_company_name
+      - validate_posted_date
+
+  output_file: outputs/job_search_results.json

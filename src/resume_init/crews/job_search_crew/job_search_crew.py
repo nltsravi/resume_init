@@ -10,8 +10,8 @@ from crewai.project import CrewBase, agent, crew, task
 
 
 @CrewBase
-class PoemCrew:
-    """Poem Crew"""
+class JobSearchCrew:
+    """Job Search Crew"""
 
     agents: List[BaseAgent]
     tasks: List[Task]
@@ -22,26 +22,26 @@ class PoemCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
-    # If you would lik to add tools to your crew, you can learn more about it here:
+    # If you would like to add tools to your crew, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def poem_writer(self) -> Agent:
+    def senior_job_researcher(self) -> Agent:
         return Agent(
-            config=self.agents_config["poem_writer"],  # type: ignore[index]
+            config=self.agents_config["senior_job_researcher"],  # type: ignore[index]
         )
 
     # To learn more about structured task outputs,
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
     @task
-    def write_poem(self) -> Task:
+    def job_search_task(self) -> Task:
         return Task(
-            config=self.tasks_config["write_poem"],  # type: ignore[index]
+            config=self.tasks_config["job_search_task"],  # type: ignore[index]
         )
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Research Crew"""
+        """Creates the Job Search Crew"""
         # To learn how to add knowledge sources to your crew, check out the documentation:
         # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
 
